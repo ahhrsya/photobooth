@@ -1,0 +1,4 @@
+# Cloudflare Pages rewrite rules
+# /journal/[runtime-id] → serve the pre-rendered placeholder shell
+# useParams() reads the actual URL, so the correct journal ID is still used.
+/journal/* /journal/__/ 200

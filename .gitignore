@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+.DS_Store
+*.log
+.env*.local
+_legacy-expo/node_modules
+_legacy-expo/.expo

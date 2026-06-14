@@ -64,7 +64,7 @@ export default function MainMenu() {
                 return (
                   <Link
                     key={j.id}
-                    href={`/journal/${j.id}`}
+                    href={`/journal/view?id=${j.id}`}
                     className="shrink-0"
                   >
                     <div

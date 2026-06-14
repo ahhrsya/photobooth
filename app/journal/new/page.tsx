@@ -15,7 +15,7 @@ export default function NewJournal() {
 
   const create = () => {
     const j = createJournal(title || "Untitled", cover);
-    router.push(`/journal/${j.id}`);
+    router.push(`/journal/view?id=${j.id}`);
   };
 
   return (

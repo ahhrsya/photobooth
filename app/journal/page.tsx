@@ -44,7 +44,7 @@ export default function JournalList() {
             {journals.map((j) => {
               const cover = getCoverById(j.cover);
               return (
-                <Link key={j.id} href={`/journal/${j.id}`}>
+                <Link key={j.id} href={`/journal/view?id=${j.id}`}>
                   <motion.div
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.97 }}

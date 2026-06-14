@@ -17,7 +17,7 @@ const JournalBook = dynamic(
   { ssr: false }
 );
 
-export function JournalView() {
+export function JournalView({ overrideId }: { overrideId?: string } = {}) {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const {
@@ -39,9 +39,11 @@ export function JournalView() {
     void loadAll();
   }, [loadAll]);
 
+  const journalId = overrideId || params.id;
+
   const journal = useMemo(
-    () => journals.find((j) => j.id === params.id),
-    [journals, params.id]
+    () => journals.find((j) => j.id === journalId),
+    [journals, journalId]
   );
 
   const [editPageIndex, setEditPageIndex] = useState(0);

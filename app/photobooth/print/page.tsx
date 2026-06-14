@@ -274,7 +274,7 @@ function AddToJournalSheet({
       scale: 1,
       zIndex: Date.now(),
     });
-    router.push(`/journal/${journalId}`);
+    router.push(`/journal/view?id=${journalId}`);
   };
 
   return (

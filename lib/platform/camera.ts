@@ -27,7 +27,8 @@ export async function openCamera(
 
 export function captureVideoFrame(
   video: HTMLVideoElement,
-  size = 1024
+  size = 1024,
+  mirror = false
 ): string {
   const canvas = document.createElement("canvas");
   const w = video.videoWidth || size;
@@ -40,6 +41,11 @@ export function captureVideoFrame(
   if (!ctx) throw new Error("No 2D ctx");
   const sx = (w - side) / 2;
   const sy = (h - side) / 2;
+  if (mirror) {
+    // Flip horizontally so captured photo matches what user sees in viewfinder
+    ctx.translate(side, 0);
+    ctx.scale(-1, 1);
+  }
   ctx.drawImage(video, sx, sy, side, side, 0, 0, side, side);
   return canvas.toDataURL("image/jpeg", 0.9);
 }

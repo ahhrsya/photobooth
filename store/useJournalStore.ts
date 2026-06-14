@@ -62,6 +62,8 @@ export const useJournalStore = create<JournalState>((set, get) => ({
 
   loadAll: async () => {
     if (get().isLoaded) return;
+    // Snapshot any journals already in memory (e.g. just created before IDB save completes)
+    const inMemory = get().journals;
     try {
       const ids = await listJournalIds();
       const loaded: Journal[] = [];
@@ -69,8 +71,14 @@ export const useJournalStore = create<JournalState>((set, get) => ({
         const j = await loadJournal<Journal>(String(id));
         if (j) loaded.push(j);
       }
-      loaded.sort((a, b) => b.updatedAt - a.updatedAt);
-      set({ journals: loaded, isLoaded: true });
+      // Merge: keep in-memory journals not yet persisted to IDB (race condition guard)
+      const loadedIds = new Set(loaded.map((j) => j.id));
+      const merged = [
+        ...loaded,
+        ...inMemory.filter((j) => !loadedIds.has(j.id)),
+      ];
+      merged.sort((a, b) => b.updatedAt - a.updatedAt);
+      set({ journals: merged, isLoaded: true });
     } catch {
       set({ isLoaded: true });
     }

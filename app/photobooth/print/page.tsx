@@ -29,12 +29,18 @@ export default function PrintPage() {
   const [showJournalPicker, setShowJournalPicker] = useState(false);
   const controls = useAnimationControls();
 
-  // Guard: no photos → bounce
+  // Wait for Zustand to hydrate from sessionStorage before checking guard.
+  // Without this, the initial render sees empty state and redirects immediately.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => { setHydrated(true); }, []);
+
+  // Guard: no photos → bounce (only after hydration)
   useEffect(() => {
+    if (!hydrated) return;
     if (!capturedPhotos.length || !format) {
       router.replace("/photobooth/booth");
     }
-  }, [capturedPhotos.length, format, router]);
+  }, [hydrated, capturedPhotos.length, format, router]);
 
   // Run print animation once composed.
   // setTimeout(0) defers past React's commit phase AND Framer Motion's

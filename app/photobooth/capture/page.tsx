@@ -85,7 +85,7 @@ export default function CapturePage() {
       setFlash(true);
       await sleep(40);
       if (videoRef.current) {
-        const data = captureVideoFrame(videoRef.current, 1024);
+        const data = captureVideoFrame(videoRef.current, 1024, facing === "user");
         collected.push(data);
         setLocalPhotos([...collected]);
       }
